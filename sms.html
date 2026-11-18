@@ -48,7 +48,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
 button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
 
 .tw{overflow-x:auto;margin-top:10px}
-table{width:100%;border-collapse:collapse;font-size:14px;min-width:1040px}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:1140px}
 th{background:var(--ink-deep);color:var(--paper);font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;text-align:left;padding:8px 6px;font-weight:700;white-space:nowrap}
 td{border-bottom:1px solid var(--line);padding:4px 6px;vertical-align:middle;color:var(--ink-2);background:var(--card)}
 td.num{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--ink-3);width:34px}
@@ -61,12 +61,16 @@ input[type=text]:hover,input[type=date]:hover,select:hover{border-color:var(--li
 input[type=date]{font-family:var(--mono);font-size:12px;font-weight:700;width:128px}
 input::placeholder{color:var(--n)}
 select{width:128px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
-input[readonly]{pointer-events:none}
+input[readonly],textarea[readonly]{pointer-events:none}
+th.et,td.et{width:30%;min-width:300px}
+textarea.et-in{display:block;font-family:var(--sans);font-size:13.5px;line-height:1.4;color:var(--ink);background:transparent;border:1px solid transparent;border-radius:0;padding:5px 6px;width:100%;resize:none;overflow:hidden;min-height:30px}
+textarea.et-in:hover{border-color:var(--line)}
+textarea.et-in:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
 .rm{border:0;background:transparent;color:var(--ink-3);padding:4px 6px;font-size:14px;letter-spacing:0}
 .rm:hover{color:var(--r)}
 
 /* Linha do tempo dentro da tabela */
-th.tl,td.tl{width:38%;min-width:340px;padding:0;position:relative}
+th.tl,td.tl{width:30%;min-width:300px;padding:0;position:relative}
 th.tl{height:33px}
 .tk{position:absolute;top:0;bottom:0;border-left:1px solid rgba(246,244,236,.25);padding:9px 0 0 4px;font-size:10px;letter-spacing:.04em;white-space:nowrap}
 td.tl{height:38px;border-left:1px solid var(--ink)}
@@ -94,11 +98,7 @@ th.tl .hint{display:block;padding:0 8px;line-height:33px;color:var(--gold-hi)}
 <body>
 <div id="root"></div>
 <script type="application/json" id="state">
-{"emitido":"2026-11-18","atualizadoEm":"","integracoes":[
-{"nome":"INTEGRASD ↔ GOV.BR","objeto":"Assinatura digital de documentos clínicos e formulários assistenciais","etapas":[]},
-{"nome":"INTEGRASD ↔ SOFTLAB","objeto":"Solicitações, status e laudos, nos dois sentidos","etapas":[{"nome":"Preparar: contato técnico ND, mapeamento de exames e IDs únicos","inicio":"2026-11-18","fim":"2026-11-19","responsavel":"Uriel Batista","status":"Em andamento"},{"nome":"Desenvolver envio (inclusão, atualização, cancelamento)","inicio":"2026-11-23","fim":"2026-11-24","responsavel":"","status":"Não iniciado"},{"nome":"Desenvolver recebimento (coleta e resultados/laudo)","inicio":"2026-11-25","fim":"2026-11-27","responsavel":"","status":"Não iniciado"},{"nome":"Testar com a ND: roteiro partes 1 e 2 (envio)","inicio":"2026-11-30","fim":"2026-11-30","responsavel":"","status":"Não iniciado"},{"nome":"Testar com a ND: roteiro parte 3 (resultados)","inicio":"2026-12-01","fim":"2026-12-01","responsavel":"","status":"Não iniciado"}]},
-{"nome":"INTEGRASD ↔ FASTMEDIC","objeto":"Consulta de histórico clínico intermunicipal","etapas":[]}
-],"atencao":["GOV.BR: confirmar a relação com o RNF-002, que exige certificado ICP-Brasil na assinatura do sumário de alta.","Ordem de execução: as três integrações correm em paralelo ou em sequência?","Dependência da emissão do TSS/OS do módulo Prontuário, pendente no Status Report de 19/10/2026.","SOFTLAB: prazo total de 7 dias úteis mais 2 de testes é estimativa “por alto” de Uriel Batista (12/11), a partir da liberação em 18/11, sujeita às dúvidas com o Rene. A divisão em etapas é proposta com base na documentação Softlab v1.07. A avaliar.","SOFTLAB: contagem em dias úteis, sem o feriado nacional de 20/11.","SOFTLAB: os testes dependem do contato técnico da ND Engenharia & Software, solicitado via comercial, e de um endereço SOAP do HIS acessível pela internet para as notificações de coleta e resultado.","SOFTLAB: a publicação em produção não está dentro do prazo estimado.","SOFTLAB (18/11): Uriel Batista já montou no Postman a estrutura das chamadas, com base na documentação v1.07. Validar e ajustar as chamadas quando a Softlab disponibilizar o acesso, previsto para hoje.","SOFTLAB: reunião sobre a integração em 18/11/2026, às 14h."]}
+{"emitido":"2026-11-18","atualizadoEm":"2026-11-18T12:39:26.260Z","integracoes":[{"nome":"INTEGRASD ↔ GOV.BR","objeto":"Assinatura digital de documentos clínicos e formulários assistenciais","etapas":[{"nome":"Especificar requisitos e interface","inicio":"","fim":"","responsavel":"","status":"Não iniciado"},{"nome":"Desenvolver (DEV)","inicio":"","fim":"","responsavel":"","status":"Não iniciado"},{"nome":"Homologar (HML) com a SMS","inicio":"","fim":"","responsavel":"","status":"Não iniciado"},{"nome":"Publicar em produção (PRD)","inicio":"","fim":"","responsavel":"","status":"Não iniciado"}]},{"nome":"INTEGRASD ↔ SOFTLAB","objeto":"Solicitações, status e laudos, nos dois sentidos","etapas":[{"nome":"Preparar: contato técnico ND, mapeamento de exames e IDs únicos","inicio":"2026-11-18","fim":"2026-11-19","responsavel":"Uriel Batista","status":"Em andamento"},{"nome":"Desenvolver envio (inclusão, atualização, cancelamento)","inicio":"2026-11-23","fim":"2026-11-24","responsavel":"Uriel Batista","status":"Não iniciado"},{"nome":"Desenvolver recebimento (coleta e resultados/laudo)","inicio":"2026-11-25","fim":"2026-11-27","responsavel":"Uriel Batista","status":"Não iniciado"},{"nome":"Testar com a ND: roteiro partes 1 e 2 (envio)","inicio":"2026-11-30","fim":"2026-11-30","responsavel":"","status":"Não iniciado"},{"nome":"Testar com a ND: roteiro parte 3 (resultados)","inicio":"2026-12-01","fim":"2026-12-01","responsavel":"","status":"Não iniciado"}]},{"nome":"INTEGRASD ↔ FASTMEDIC","objeto":"Consulta de histórico clínico intermunicipal","etapas":[{"nome":"Especificar requisitos e interface","inicio":"","fim":"","responsavel":"","status":"Não iniciado"},{"nome":"Desenvolver (DEV)","inicio":"","fim":"","responsavel":"","status":"Não iniciado"},{"nome":"Homologar (HML) com a SMS","inicio":"","fim":"","responsavel":"","status":"Não iniciado"},{"nome":"Publicar em produção (PRD)","inicio":"","fim":"","responsavel":"","status":"Não iniciado"}]}],"atencao":["GOV.BR: confirmar a relação com o RNF-002, que exige certificado ICP-Brasil na assinatura do sumário de alta.","Ordem de execução: as três integrações correm em paralelo ou em sequência?","Dependência da emissão do TSS/OS do módulo Prontuário, pendente no Status Report de 19/10/2026.","SOFTLAB: prazo total de 7 dias úteis mais 2 de testes é estimativa “por alto” de Uriel Batista (12/11), a partir da liberação em 18/11, sujeita às dúvidas com o Rene. A divisão em etapas é proposta com base na documentação Softlab v1.07. A avaliar.","SOFTLAB: contagem em dias úteis, sem o feriado nacional de 20/11.","SOFTLAB: os testes dependem do contato técnico da ND Engenharia & Software, solicitado via comercial, e de um endereço SOAP do HIS acessível pela internet para as notificações de coleta e resultado.","SOFTLAB: a publicação em produção não está dentro do prazo estimado.","SOFTLAB (18/11): Uriel Batista já montou no Postman a estrutura das chamadas, com base na documentação v1.07. Validar e ajustar as chamadas quando a Softlab disponibilizar o acesso, previsto para hoje.","SOFTLAB: reunião sobre a integração em 18/11/2026, às 14h."]}
 </script>
 <script id="app">
 (function(){
@@ -165,7 +165,7 @@ function shell(){
   '<div class="meta" id="meta"></div>'+
   '<div class="toolbar"><span class="msg" id="msg" role="status" aria-live="polite"></span><span class="sp"></span><button type="button" id="bd">Descartar</button><button type="button" class="primary" id="bs">Salvar</button></div>'+
   '<h2>Cronograma<span class="n" id="cnt"></span></h2>'+
-  '<div class="tw"><table><thead><tr><th>Nº</th><th>Etapa</th><th>Início</th><th>Fim</th><th>Responsável</th><th>Status</th><th class="tl" id="htl"></th><th><span class="sr">Ações</span></th></tr></thead><tbody id="tb"></tbody></table></div>'+
+  '<div class="tw"><table><thead><tr><th>Nº</th><th class="et">Etapa</th><th>Início</th><th>Fim</th><th>Responsável</th><th>Status</th><th class="tl" id="htl"></th><th><span class="sr">Ações</span></th></tr></thead><tbody id="tb"></tbody></table></div>'+
   '<div class="legend"><span class="st I">Não iniciado</span><span class="st Y">Em andamento</span><span class="st G">Concluído</span><span class="st R">Atrasado</span><span class="st N">Cancelado</span><span class="st today-l">Hoje</span></div>'+
   '<p class="nt guia"><b>Como preencher:</b> datas de início e fim em cada etapa; responsável pelo nome da pessoa (Nome · organização). Etapas sugeridas pelo modelo, a validar com a SMS. Escopo conforme o Panorama de atividades out/nov/dez. Remover esta nota antes de enviar.</p>'+
   '<h2>Pontos de atenção<span class="n">Em aberto</span></h2><div class="check"><ul id="at"></ul></div>'+
@@ -185,7 +185,7 @@ function renderTable(){
     h+='<tr class="grp"><td colspan="8"><b>'+esc(it.nome)+'</b><span>'+esc(it.objeto)+'</span>'+(ro?'':'<button type="button" data-act="add" data-i="'+ii+'">+ Etapa</button>')+'</td></tr>';
     it.etapas.forEach(function(e,ei){
       h+='<tr data-i="'+ii+'" data-e="'+ei+'"><td class="num">'+p2(ei+1)+'</td>'+
-       '<td><input type="text" data-f="nome" value="'+esc(e.nome)+'" aria-label="Etapa"'+R+'></td>'+
+       '<td class="et"><textarea class="et-in" data-f="nome" rows="1" aria-label="Etapa"'+R+'>'+esc(e.nome)+'</textarea></td>'+
        '<td><input type="date" data-f="inicio" value="'+esc(e.inicio)+'" aria-label="Início"'+R+'></td>'+
        '<td><input type="date" data-f="fim" value="'+esc(e.fim)+'" aria-label="Fim"'+R+'></td>'+
        '<td><input type="text" data-f="responsavel" value="'+esc(e.responsavel)+'" placeholder="A definir" aria-label="Responsável"'+R+'></td>'+
@@ -195,8 +195,13 @@ function renderTable(){
     });
   });
   document.getElementById("tb").innerHTML=h;
+  fitAll();
   document.getElementById("htl").innerHTML=headTL();
 }
+function fit(t){t.style.height="auto";t.style.height=t.scrollHeight+"px";}
+function fitAll(){document.querySelectorAll("textarea.et-in").forEach(fit);}
+window.addEventListener("resize",fitAll);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitAll);
 function refreshTL(){
   computeScale();
   document.getElementById("htl").innerHTML=headTL();
@@ -218,11 +223,12 @@ function changed(){dirty=true;msg="";alertMsg=false;draft();renderInfo();renderS
 function onInput(ev){
   if(ro)return;var el=ev.target,tr=el.closest("tr[data-i]");if(!tr||!el.dataset.f)return;
   state.integracoes[+tr.dataset.i].etapas[+tr.dataset.e][el.dataset.f]=el.value;
+  if(el.tagName==="TEXTAREA")fit(el);
   refreshTL();changed();
 }
 function onClick(ev){
   var b=ev.target.closest("button[data-act]");if(!b||ro)return;
-  if(b.dataset.act==="add"){var ii=b.dataset.i;state.integracoes[+ii].etapas.push(nova("Nova etapa"));renderTable();changed();var rows=document.querySelectorAll('tr[data-i="'+ii+'"]'),l=rows[rows.length-1];if(l){var x=l.querySelector('input[data-f="nome"]');x.focus();x.select();}}
+  if(b.dataset.act==="add"){var ii=b.dataset.i;state.integracoes[+ii].etapas.push(nova("Nova etapa"));renderTable();changed();var rows=document.querySelectorAll('tr[data-i="'+ii+'"]'),l=rows[rows.length-1];if(l){var x=l.querySelector('[data-f="nome"]');x.focus();x.select();}}
   else{var tr=b.closest("tr");state.integracoes[+tr.dataset.i].etapas.splice(+tr.dataset.e,1);renderTable();changed();}
 }
 var HEAD='<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<title>Cronograma das integrações</title>\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800;900&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">\n';
