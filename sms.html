@@ -84,6 +84,11 @@ th.tl .hint{display:block;padding:0 8px;line-height:33px;color:var(--gold-hi)}
 .I{--c:var(--ink-2)}.Y{--c:var(--y)}.G{--c:var(--g)}.R{--c:var(--r)}.N{--c:var(--n)}
 
 .legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px}
+.regua{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;margin-top:12px;font-size:13px;color:var(--ink-3)}
+.regua .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--ink)}
+.regua .grp-r{display:inline-flex;align-items:center;gap:6px}
+.regua button{padding:2px 9px;font-size:13px;letter-spacing:0}
+.regua b{font-family:var(--mono);font-size:12px;min-width:2.5ch;text-align:center;color:var(--ink)}
 .st{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;display:inline-flex;align-items:center;gap:6px;color:var(--ink-2)}
 .st::before{content:"";width:9px;height:9px;border:1px solid var(--ink);background:var(--c);flex:none}
 .st.today-l::before{width:0;height:12px;border:0;border-left:2px solid var(--gold)}
@@ -92,7 +97,7 @@ th.tl .hint{display:block;padding:0 8px;line-height:33px;color:var(--gold-hi)}
 .check ul{margin:0 0 0 18px;display:grid;gap:3px;color:var(--ink-2);font-size:14px}
 .foot{margin-top:30px;border-top:1px solid var(--ink);padding-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ink-3);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-@media print{.toolbar,.rm,tr.grp button,.guia{display:none}}
+@media print{.toolbar,.rm,tr.grp button,.guia,.regua{display:none}}
 </style>
 </head>
 <body>
@@ -132,9 +137,12 @@ function todas(){var r=[];state.integracoes.forEach(function(it){r=r.concat(it.e
 var scale=null;
 function computeScale(){
   var ok=todas().map(info).filter(function(i){return i.k==="ok";});
-  if(!ok.length){scale=null;return;}
-  var min=Math.min.apply(null,ok.map(function(i){return i.a;})),max=Math.max.apply(null,ok.map(function(i){return i.b;}));
+  var sa=Math.max(0,+state.semanasAntes||0),sd=Math.max(0,+state.semanasDepois||0),min,max;
+  if(ok.length){min=Math.min.apply(null,ok.map(function(i){return i.a;}));max=Math.max.apply(null,ok.map(function(i){return i.b;}));}
+  else if(sa||sd){min=max=hoje();}
+  else{scale=null;return;}
   min-=((new Date(min).getUTCDay()+6)%7)*DAY;max+=(6-(new Date(max).getUTCDay()+6)%7)*DAY;
+  min-=sa*7*DAY;max+=sd*7*DAY;
   var span=max-min+DAY,ticks=[];
   if(span/DAY/7<=10){for(var t=min;t<=max;t+=7*DAY)ticks.push({t:t,l:dm(t)});}
   else{ticks.push({t:min,l:mes(min)});var d0=new Date(min),m=Date.UTC(d0.getUTCFullYear(),d0.getUTCMonth()+1,1);while(m<=max){ticks.push({t:m,l:mes(m)});var dd=new Date(m);m=Date.UTC(dd.getUTCFullYear(),dd.getUTCMonth()+1,1);}}
@@ -167,7 +175,8 @@ function shell(){
   '<h2>Cronograma<span class="n" id="cnt"></span></h2>'+
   '<div class="tw"><table><thead><tr><th>Nº</th><th class="et">Etapa</th><th>Início</th><th>Fim</th><th>Responsável</th><th>Status</th><th class="tl" id="htl"></th><th><span class="sr">Ações</span></th></tr></thead><tbody id="tb"></tbody></table></div>'+
   '<div class="legend"><span class="st I">Não iniciado</span><span class="st Y">Em andamento</span><span class="st G">Concluído</span><span class="st R">Atrasado</span><span class="st N">Cancelado</span><span class="st today-l">Hoje</span></div>'+
-  '<p class="nt guia"><b>Como preencher:</b> datas de início e fim em cada etapa; responsável pelo nome da pessoa (Nome · organização). Etapas sugeridas pelo modelo, a validar com a SMS. Escopo conforme o Panorama de atividades out/nov/dez. Remover esta nota antes de enviar.</p>'+
+  '<div class="regua" id="rg"></div>'+
+  '<p class="nt guia"><b>Como preencher:</b> datas de início e fim em cada etapa; responsável pelo nome da pessoa (Nome · organização). Etapas sugeridas pelo modelo, a validar com a SMS. Escopo conforme o Panorama de atividades out/nov/dez. Use a régua para mostrar semanas antes ou depois das etapas. Remover esta nota antes de enviar.</p>'+
   '<h2>Pontos de atenção<span class="n">Em aberto</span></h2><div class="check"><ul id="at"></ul></div>'+
   '<div class="foot"><span>GoldenCloud · Fábrica de Software · Cronograma · IntegraSD</span><span id="ftd"></span></div></div>';
 }
@@ -207,7 +216,21 @@ function refreshTL(){
   document.getElementById("htl").innerHTML=headTL();
   document.querySelectorAll("tr[data-i]").forEach(function(tr){tr.querySelector("td.tl").innerHTML=cellTL(state.integracoes[+tr.dataset.i].etapas[+tr.dataset.e]);});
 }
+function renderRegua(){
+  var rg=document.getElementById("rg");if(ro){rg.innerHTML="";return;}
+  var sa=+state.semanasAntes||0,sd=+state.semanasDepois||0;
+  rg.innerHTML='<span class="k">Régua</span>'+
+   '<span class="grp-r">Semanas antes <button type="button" data-r="a" data-d="-1" aria-label="Uma semana a menos antes"'+(sa?'':' disabled')+'>−</button><b>'+sa+'</b><button type="button" data-r="a" data-d="1" aria-label="Uma semana a mais antes">+</button></span>'+
+   '<span class="grp-r">Semanas depois <button type="button" data-r="d" data-d="-1" aria-label="Uma semana a menos depois"'+(sd?'':' disabled')+'>−</button><b>'+sd+'</b><button type="button" data-r="d" data-d="1" aria-label="Uma semana a mais depois">+</button></span>';
+}
+function onRegua(ev){
+  var b=ev.target.closest("button[data-r]");if(!b||ro)return;
+  var k=b.dataset.r==="a"?"semanasAntes":"semanasDepois";
+  state[k]=Math.max(0,Math.min(52,(+state[k]||0)+(+b.dataset.d)));
+  refreshTL();changed();
+}
 function renderInfo(){
+  renderRegua();
   var all=todas(),dat=all.filter(function(e){return info(e).k==="ok";}).length,sr=all.filter(function(e){return !String(e.responsavel||"").trim();}).length;
   document.getElementById("cnt").textContent=dat+" de "+all.length+" etapas com datas";
   var it=[];if(all.length-dat)it.push((all.length-dat)+" etapas sem início e fim.");if(sr)it.push(sr+" etapas sem responsável nominal.");
@@ -251,6 +274,7 @@ function discard(){if(!dirty||saving)return;undraft();state=prep(JSON.parse(base
 document.getElementById("root").innerHTML=shell();
 renderHead();renderTable();renderInfo();renderStatus();
 var tb=document.getElementById("tb");tb.addEventListener("input",onInput);tb.addEventListener("change",onInput);tb.addEventListener("click",onClick);
+document.getElementById("rg").addEventListener("click",onRegua);
 document.getElementById("bs").addEventListener("click",save);document.getElementById("bd").addEventListener("click",discard);
 if(window.claude&&typeof window.claude.use==="function"){window.claude.use("artifact").then(function(a){api=a;checked=true;renderStatus();},function(){checked=true;renderStatus();});}else{checked=true;renderStatus();}
 })();
